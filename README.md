@@ -109,6 +109,58 @@ $response = Prism::embeddings()
 $embeddings = $response->embeddings;
 ```
 
+### Streaming
+
+Stream responses in real-time for a better user experience:
+
+```php
+use Prism\Prism\Prism;
+use Prism\Bedrock\Bedrock;
+use Prism\Prism\Streaming\Events\TextDeltaEvent;
+
+$stream = Prism::text()
+    ->using(Bedrock::KEY, 'anthropic.claude-3-sonnet-20240229-v1:0')
+    ->withPrompt('Write a short story')
+    ->asStream();
+
+foreach ($stream as $event) {
+    if ($event instanceof TextDeltaEvent) {
+        echo $event->delta;
+    }
+}
+```
+
+### Broadcasting (Real-time WebSockets)
+
+Broadcast streaming events to WebSocket channels for real-time UI updates:
+
+```php
+use Prism\Prism\Prism;
+use Prism\Bedrock\Bedrock;
+use Illuminate\Broadcasting\Channel;
+
+Prism::text()
+    ->using(Bedrock::KEY, 'anthropic.claude-3-sonnet-20240229-v1:0')
+    ->withPrompt('Explain quantum computing')
+    ->asBroadcast(new Channel('ai-response-123'), function ($request, $events) {
+        // Optional: Handle completion (e.g., save to database)
+        Log::info('Streaming complete', ['event_count' => $events->count()]);
+    });
+```
+
+**JavaScript client example (Laravel Echo):**
+
+```javascript
+Echo.channel('ai-response-123')
+    .listen('.text_delta', (e) => {
+        // Append text chunk to UI
+        document.getElementById('response').innerHTML += e.delta;
+    })
+    .listen('.stream_end', (e) => {
+        console.log('Stream complete', e.finish_reason);
+    });
+```
+
 ### Model names
 
 > [!IMPORTANT]
@@ -136,11 +188,11 @@ Prism Bedrock supports three of those API schemas:
 
 Each schema supports different capabilities:
 
-| Schema | Text | Structured | Embeddings |
-|--------|:----:|:----------:|:----------:|
-| Converse | ✅ | ✅ | ❌ |
-| Anthropic | ✅ | ✅ | ❌ |
-| Cohere | ❌ | ❌ | ✅ |
+| Schema | Text | Structured | Embeddings | Streaming |
+|--------|:----:|:----------:|:----------:|:---------:|
+| Converse | ✅ | ✅ | ❌ | ✅ |
+| Anthropic | ✅ | ✅ | ❌ | ✅ |
+| Cohere | ❌ | ❌ | ✅ | ❌ |
 
 \* A unified interface for multiple providers. See [AWS documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html) for a list of supported models.
 

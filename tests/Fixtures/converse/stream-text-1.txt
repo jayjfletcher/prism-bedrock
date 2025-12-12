@@ -1,0 +1,9 @@
+{"messageStart":{"role":"assistant"}}
+{"contentBlockStart":{"contentBlockIndex":0,"start":{}}}
+{"contentBlockDelta":{"delta":{"text":"Hello"},"contentBlockIndex":0}}
+{"contentBlockDelta":{"delta":{"text":", "},"contentBlockIndex":0}}
+{"contentBlockDelta":{"delta":{"text":"world"},"contentBlockIndex":0}}
+{"contentBlockDelta":{"delta":{"text":"!"},"contentBlockIndex":0}}
+{"contentBlockStop":{"contentBlockIndex":0}}
+{"messageStop":{"stopReason":"end_turn"}}
+{"metadata":{"usage":{"inputTokens":10,"outputTokens":4},"metrics":{"latencyMs":100}}}

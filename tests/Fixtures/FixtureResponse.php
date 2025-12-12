@@ -68,4 +68,15 @@ class FixtureResponse
             $requestPath => Http::sequence($responses->toArray()),
         ])->preventStrayRequests();
     }
+
+    public static function fakeStreamResponse(string $requestPath, string $filePath, array $headers = []): void
+    {
+        Http::fake([
+            $requestPath => Http::response(
+                file_get_contents(static::filePath($filePath)),
+                200,
+                array_merge(['Content-Type' => 'text/event-stream'], $headers)
+            ),
+        ])->preventStrayRequests();
+    }
 }

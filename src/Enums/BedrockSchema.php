@@ -6,11 +6,14 @@ use Illuminate\Support\Str;
 use Prism\Bedrock\Contracts\BedrockEmbeddingsHandler;
 use Prism\Bedrock\Contracts\BedrockStructuredHandler;
 use Prism\Bedrock\Contracts\BedrockTextHandler;
+use Prism\Bedrock\Contracts\BedrockTextStreamHandler;
 use Prism\Bedrock\Schemas\Anthropic\AnthropicStructuredHandler;
 use Prism\Bedrock\Schemas\Anthropic\AnthropicTextHandler;
+use Prism\Bedrock\Schemas\Anthropic\AnthropicTextStreamHandler;
 use Prism\Bedrock\Schemas\Cohere\CohereEmbeddingsHandler;
 use Prism\Bedrock\Schemas\Converse\ConverseStructuredHandler;
 use Prism\Bedrock\Schemas\Converse\ConverseTextHandler;
+use Prism\Bedrock\Schemas\Converse\ConverseTextStreamHandler;
 
 enum BedrockSchema: string
 {
@@ -38,6 +41,18 @@ enum BedrockSchema: string
         return match ($this) {
             self::Anthropic => AnthropicStructuredHandler::class,
             self::Converse => ConverseStructuredHandler::class,
+            default => null
+        };
+    }
+
+    /**
+     * @return null|class-string<BedrockTextStreamHandler>
+     */
+    public function textStreamHandler(): ?string
+    {
+        return match ($this) {
+            self::Anthropic => AnthropicTextStreamHandler::class,
+            self::Converse => ConverseTextStreamHandler::class,
             default => null
         };
     }

@@ -1,0 +1,10 @@
+{"messageStart":{"role":"assistant"}}
+{"contentBlockStart":{"contentBlockIndex":0,"start":{}}}
+{"contentBlockDelta":{"delta":{"text":"I'll search for that."},"contentBlockIndex":0}}
+{"contentBlockStop":{"contentBlockIndex":0}}
+{"contentBlockStart":{"contentBlockIndex":1,"start":{"toolUse":{"toolUseId":"toolu_01ABC123","name":"search"}}}}
+{"contentBlockDelta":{"delta":{"toolUse":{"input":"{\"query\":"}},"contentBlockIndex":1}}
+{"contentBlockDelta":{"delta":{"toolUse":{"input":"\"test query\"}"}},"contentBlockIndex":1}}
+{"contentBlockStop":{"contentBlockIndex":1}}
+{"messageStop":{"stopReason":"tool_use"}}
+{"metadata":{"usage":{"inputTokens":50,"outputTokens":30},"metrics":{"latencyMs":200}}}
